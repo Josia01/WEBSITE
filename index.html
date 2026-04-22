@@ -1,3 +1,5 @@
+Here is the HTML document with `kit.jpg` added to the blue section on the top left of the hero area.
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1364,4 +1366,45 @@
             });
         });
         
-        //
+        // Animate stats counter
+        function animateStats() {
+            const statElements = document.querySelectorAll('.stat-item h3');
+            const stats = [35, 98, 15];
+            let animated = false;
+            
+            function checkScroll() {
+                const heroSection = document.querySelector('.hero');
+                const sectionPosition = heroSection.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (sectionPosition < screenPosition && !animated) {
+                    statElements.forEach((element, index) => {
+                        let start = 0;
+                        const end = stats[index];
+                        const duration = 2000;
+                        const increment = end / (duration / 16);
+                        
+                        const timer = setInterval(() => {
+                            start += increment;
+                            if (start >= end) {
+                                element.textContent = end + (index === 2 ? ':1' : '+');
+                                clearInterval(timer);
+                            } else {
+                                element.textContent = Math.floor(start) + (index === 2 ? ':1' : '+');
+                            }
+                        }, 16);
+                    });
+                    
+                    animated = true;
+                }
+            }
+            
+            window.addEventListener('scroll', checkScroll);
+            checkScroll();
+        }
+        
+        animateStats();
+    </script>
+</body>
+</html>
+```
