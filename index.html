@@ -1,5 +1,3 @@
-Here is the HTML document with `kit.jpg` added to the blue section on the top left of the hero area.
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -247,11 +245,11 @@ Here is the HTML document with `kit.jpg` added to the blue section on the top le
             clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%);
         }
 
-        /* KIT.JPG placed on the blue part (top left of the hero's blue gradient region) */
+        /* KIT.JPG placed on the blue part (top RIGHT of the hero's blue gradient region) */
         .blue-corner-image {
             position: absolute;
             top: 30px;
-            left: 30px;
+            right: 30px;
             z-index: 20;
             width: 90px;
             height: 90px;
@@ -273,11 +271,11 @@ Here is the HTML document with `kit.jpg` added to the blue section on the top le
             object-fit: cover;
             display: block;
         }
-        /* For extra visibility on the dark blue gradient left side */
+        /* For extra visibility on the dark blue gradient right side */
         @media (max-width: 1024px) {
             .blue-corner-image {
                 top: 20px;
-                left: 20px;
+                right: 20px;
                 width: 75px;
                 height: 75px;
             }
@@ -285,7 +283,7 @@ Here is the HTML document with `kit.jpg` added to the blue section on the top le
         @media (max-width: 768px) {
             .blue-corner-image {
                 top: 15px;
-                left: 15px;
+                right: 15px;
                 width: 65px;
                 height: 65px;
                 border-width: 2px;
@@ -929,7 +927,7 @@ Here is the HTML document with `kit.jpg` added to the blue section on the top le
 
     <!-- Hero Section -->
     <section class="hero" id="home">
-        <!-- Blue corner image: kit.jpg placed on the top-left blue gradient area -->
+        <!-- Blue corner image: kit.jpg placed on the top-right blue gradient area -->
         <div class="blue-corner-image">
             <img src="kit.jpg" alt="Kit Memorial Emblem" onerror="this.onerror=null; this.src='https://placehold.co/400x400/0A2342/FFFFFF?text=KIT+Emblem';">
         </div>
@@ -1407,4 +1405,3 @@ Here is the HTML document with `kit.jpg` added to the blue section on the top le
     </script>
 </body>
 </html>
-```
