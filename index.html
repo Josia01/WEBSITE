@@ -1,5 +1,3 @@
-Here is the HTML document with `kit.jpg` set to fill the blue section (hero area) on the right, directly below the header.
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -150,6 +148,7 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
             display: flex;
             align-items: center;
             gap: 15px;
+            text-decoration: none;
         }
 
         .logo-icon {
@@ -192,12 +191,27 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
             color: var(--dark);
             font-weight: 500;
             font-size: 1rem;
-            position: relative;
             transition: color 0.3s ease;
+            position: relative;
         }
 
         .nav-links a:hover {
             color: var(--navy);
+        }
+
+        .nav-links a.active {
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--gold);
         }
 
         .nav-links a::after {
@@ -228,7 +242,7 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
             cursor: pointer;
         }
 
-        /* Hero Section - contains the blue part on the right */
+        /* Hero Section */
         .hero {
             padding: 180px 0 120px;
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
@@ -236,7 +250,6 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
             overflow: hidden;
         }
 
-        /* Blue gradient overlay that creates the "blue part" on the right side */
         .hero::before {
             content: '';
             position: absolute;
@@ -249,7 +262,6 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
             z-index: 1;
         }
 
-        /* KIT.JPG - now fills the entire blue section on the right side */
         .blue-section-image {
             position: absolute;
             top: 0;
@@ -258,7 +270,6 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
             height: 100%;
             z-index: 2;
             overflow: hidden;
-            /* Match the clip-path of the blue overlay exactly */
             clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%);
         }
         
@@ -272,12 +283,6 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
             transition: transform 0.4s ease;
         }
         
-        .blue-section-image:hover img {
-            transform: scale(1.02);
-        }
-        
-        /* Overlay a subtle semi-transparent gradient to ensure text readability 
-           but keep image prominent, matching the blue theme */
         .blue-section-image::after {
             content: '';
             position: absolute;
@@ -349,115 +354,11 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
             display: block;
         }
 
-        /* For responsive: on tablets, the blue section might shift, we keep image covering */
-        @media (max-width: 1024px) {
-            .hero-container {
-                grid-template-columns: 1fr;
-            }
-            .hero::before {
-                display: none;
-            }
-            .blue-section-image {
-                display: none;
-            }
-            /* On mobile, we don't lose the image; we can optionally add it as background or keep hidden? 
-               But we want to preserve design: For screens below 1024px, the hero layout changes.
-               To still showcase the image, we can add it inside the hero-content area or as a separate element.
-               However, the requirement says "fill the blue part after the header" – on desktop it's perfect.
-               On smaller screens, we'll add a decorative image container to keep the spirit. */
-            .hero-mobile-img {
-                display: block;
-                margin-top: 30px;
-                border-radius: 20px;
-                overflow: hidden;
-                box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            }
-            .hero-mobile-img img {
-                width: 100%;
-                height: auto;
-                display: block;
-            }
-        }
-        
-        /* Desktop: hide mobile fallback */
         .hero-mobile-img {
             display: none;
         }
 
-        @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 280px;
-                height: 100vh;
-                background-color: white;
-                flex-direction: column;
-                padding: 100px 30px 30px;
-                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
-                transition: right 0.3s ease;
-                gap: 25px;
-                align-items: flex-start;
-            }
-
-            .nav-links.active {
-                right: 0;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .nav-cta {
-                margin-left: 0;
-                margin-top: 20px;
-            }
-
-            .hero {
-                padding: 150px 0 80px;
-            }
-
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-
-            .section {
-                padding: 80px 0;
-            }
-
-            .section-header h2 {
-                font-size: 2.2rem;
-            }
-
-            .about-features {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-stats {
-                flex-direction: column;
-                gap: 25px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .hero-content h1 {
-                font-size: 2rem;
-            }
-            
-            .programs-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .admissions-form {
-                padding: 25px;
-            }
-            
-            .btn {
-                padding: 12px 24px;
-            }
-        }
-
-        /* About Section, etc remain unchanged */
+        /* About Section */
         .about {
             background-color: white;
         }
@@ -479,17 +380,6 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
             width: 100%;
             height: auto;
             display: block;
-        }
-
-        .about-content h2 {
-            font-size: 2.5rem;
-            color: var(--navy);
-            margin-bottom: 20px;
-        }
-
-        .about-content p {
-            margin-bottom: 25px;
-            color: var(--gray);
         }
 
         .about-features {
@@ -518,151 +408,7 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
             flex-shrink: 0;
         }
 
-        .programs {
-            background-color: var(--light);
-        }
-
-        .programs-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-        }
-
-        .program-card {
-            background-color: white;
-            border-radius: 15px;
-            padding: 40px 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .program-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(to right, var(--navy), var(--teal));
-        }
-
-        .program-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .program-icon {
-            width: 70px;
-            height: 70px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            color: white;
-            margin-bottom: 25px;
-        }
-
-        .elementary .program-icon {
-            background: linear-gradient(135deg, var(--teal), #2A9D8F);
-        }
-
-        .middle .program-icon {
-            background: linear-gradient(135deg, var(--gold), #d4a911);
-        }
-
-        .highschool .program-icon {
-            background: linear-gradient(135deg, var(--navy), #0d2c52);
-        }
-
-        .program-card h3 {
-            font-size: 1.8rem;
-            color: var(--navy);
-            margin-bottom: 15px;
-        }
-
-        .program-card ul {
-            list-style: none;
-            margin-top: 20px;
-        }
-
-        .program-card ul li {
-            margin-bottom: 12px;
-            padding-left: 25px;
-            position: relative;
-        }
-
-        .program-card ul li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--gold);
-            font-weight: bold;
-        }
-
-        .faculty {
-            background-color: white;
-        }
-
-        .faculty-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .faculty-card {
-            background-color: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-        }
-
-        .faculty-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-        }
-
-        .faculty-img {
-            height: 250px;
-            overflow: hidden;
-        }
-
-        .faculty-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .faculty-card:hover .faculty-img img {
-            transform: scale(1.05);
-        }
-
-        .faculty-info {
-            padding: 25px;
-            text-align: center;
-        }
-
-        .faculty-info h4 {
-            font-size: 1.3rem;
-            color: var(--navy);
-            margin-bottom: 5px;
-        }
-
-        .faculty-info p {
-            color: var(--gold);
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .faculty-info .subject {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
+        /* Admissions Section */
         .admissions {
             background: linear-gradient(135deg, var(--navy) 0%, #0d2c52 100%);
             color: white;
@@ -673,17 +419,6 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
             grid-template-columns: 1fr 1fr;
             gap: 60px;
             align-items: center;
-        }
-
-        .admissions-content h2 {
-            font-size: 2.5rem;
-            color: white;
-            margin-bottom: 20px;
-        }
-
-        .admissions-content p {
-            margin-bottom: 25px;
-            opacity: 0.9;
         }
 
         .admissions-list {
@@ -739,13 +474,7 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
             font-size: 1rem;
         }
 
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--navy);
-            box-shadow: 0 0 0 3px rgba(10, 35, 66, 0.1);
-        }
-
+        /* News Section */
         .news {
             background-color: var(--light);
         }
@@ -778,11 +507,6 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .news-card:hover .news-img img {
-            transform: scale(1.05);
         }
 
         .news-content {
@@ -807,12 +531,7 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
             font-size: 0.8rem;
         }
 
-        .news-content h3 {
-            font-size: 1.4rem;
-            color: var(--navy);
-            margin-bottom: 10px;
-        }
-
+        /* Footer */
         footer {
             background-color: var(--navy);
             color: white;
@@ -829,7 +548,6 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
         .footer-col h3 {
             font-size: 1.4rem;
             margin-bottom: 25px;
-            color: white;
             position: relative;
             padding-bottom: 10px;
         }
@@ -905,13 +623,74 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
             color: rgba(255, 255, 255, 0.6);
             font-size: 0.9rem;
         }
+
+        @media (max-width: 1024px) {
+            .hero-container,
+            .about-container,
+            .admissions-container {
+                grid-template-columns: 1fr;
+            }
+            .hero::before,
+            .blue-section-image {
+                display: none;
+            }
+            .hero-mobile-img {
+                display: block;
+                margin-top: 30px;
+                border-radius: 20px;
+                overflow: hidden;
+            }
+            .hero-mobile-img img {
+                width: 100%;
+                height: auto;
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background-color: white;
+                flex-direction: column;
+                padding: 100px 30px 30px;
+                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+                transition: right 0.3s ease;
+                gap: 25px;
+                align-items: flex-start;
+            }
+            .nav-links.active {
+                right: 0;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .hero {
+                padding: 150px 0 80px;
+            }
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .section {
+                padding: 80px 0;
+            }
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+            .hero-stats {
+                flex-direction: column;
+                gap: 25px;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header id="header">
         <div class="container header-container">
-            <div class="logo">
+            <a href="index.html" class="logo">
                 <div class="logo-icon">
                     <i class="fas fa-book-open"></i>
                 </div>
@@ -919,16 +698,16 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
                     <h1>Twing <span>Memorial</span></h1>
                     <p>Elementary & High School</p>
                 </div>
-            </div>
+            </a>
 
             <button class="mobile-menu-btn" id="mobileMenuBtn">
                 <i class="fas fa-bars"></i>
             </button>
 
             <ul class="nav-links" id="navLinks">
-                <li><a href="#home">Home</a></li>
+                <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="#programs">Programs</a></li>
+                <li><a href="programs.html">Programs</a></li>
                 <li><a href="#faculty">Faculty</a></li>
                 <li><a href="#admissions">Admissions</a></li>
                 <li><a href="#news">News</a></li>
@@ -937,169 +716,101 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
         </div>
     </header>
 
-    <!-- Hero Section: Blue part is on the right side, filled entirely with kit.jpg -->
     <section class="hero" id="home">
-        <!-- Right side blue section fully covered by kit.jpg -->
         <div class="blue-section-image">
-            <img src="kit.jpg" alt="Kit Memorial - Campus Spirit" onerror="this.onerror=null; this.src='https://placehold.co/1200x800/0A2342/FFFFFF?text=KIT+Memorial+Image';">
+            <img src="kit.jpg" alt="Kit Memorial" onerror="this.src='https://placehold.co/1200x800/0A2342/FFFFFF?text=KIT+Memorial'">
         </div>
-        
         <div class="container hero-container">
             <div class="hero-content">
                 <h1>Shaping Minds, <span>Building Character</span></h1>
                 <p>At Twing Memorial Schools, we provide a transformative K-12 education that prepares students for academic success and lifelong learning in a nurturing, inclusive environment.</p>
                 <div class="btn-group">
-                    <a href="#programs" class="btn btn-primary">Explore Programs</a>
+                    <a href="programs.html" class="btn btn-primary">Explore Programs</a>
                     <a href="#admissions" class="btn btn-outline">Schedule Tour</a>
                 </div>
-                
                 <div class="hero-stats">
-                    <div class="stat-item">
-                        <h3>35+</h3>
-                        <p>Years of Excellence</p>
-                    </div>
-                    <div class="stat-item">
-                        <h3>98%</h3>
-                        <p>College Acceptance</p>
-                    </div>
-                    <div class="stat-item">
-                        <h3>15:1</h3>
-                        <p>Student-Teacher Ratio</p>
-                    </div>
+                    <div class="stat-item"><h3>35+</h3><p>Years of Excellence</p></div>
+                    <div class="stat-item"><h3>98%</h3><p>College Acceptance</p></div>
+                    <div class="stat-item"><h3>15:1</h3><p>Student-Teacher Ratio</p></div>
                 </div>
             </div>
-            
             <div class="hero-image">
                 <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Students at Twing Memorial">
             </div>
         </div>
-        
-        <!-- Mobile fallback image: for screens below 1024px we show kit.jpg as a dedicated image block -->
         <div class="hero-mobile-img">
-            <img src="kit.jpg" alt="Kit Memorial" onerror="this.src='https://placehold.co/800x500/0A2342/FFFFFF?text=KIT+Image';">
+            <img src="kit.jpg" alt="Kit Memorial" onerror="this.src='https://placehold.co/800x500/0A2342/FFFFFF?text=KIT'">
         </div>
     </section>
 
-    <!-- About Section -->
     <section class="about section" id="about">
         <div class="container about-container">
             <div class="about-image">
-                <img src="https://images.unsplash.com/photo-1524178234883-043d5c3f3cf4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Twing Memorial Campus">
+                <img src="https://images.unsplash.com/photo-1524178234883-043d5c3f3cf4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Campus">
             </div>
-            
             <div class="about-content">
-                <div class="section-header">
-                    <h2>About Our School</h2>
-                </div>
-                
-                <p>Founded in 1988, Twing Memorial Schools has been a cornerstone of educational excellence in our community. We honor the legacy of Dr. Eleanor Twing, a pioneering educator who believed in holistic, student-centered learning.</p>
-                
-                <p>Our mission is to cultivate curious, compassionate, and capable learners who are prepared to thrive in an increasingly complex world. We balance academic rigor with character development, creativity, and critical thinking.</p>
-                
+                <div class="section-header"><h2>About Our School</h2></div>
+                <p>Founded in 1988, Twing Memorial Schools has been a cornerstone of educational excellence. We honor the legacy of Dr. Eleanor Twing, a pioneering educator who believed in holistic, student-centered learning.</p>
+                <p>Our mission is to cultivate curious, compassionate, and capable learners who are prepared to thrive in an increasingly complex world.</p>
                 <div class="about-features">
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div>
-                            <h4>Academic Excellence</h4>
-                            <p>Consistently top-performing in state assessments</p>
-                        </div>
-                    </div>
-                    
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <div>
-                            <h4>Inclusive Community</h4>
-                            <p>Welcoming environment for all students and families</p>
-                        </div>
-                    </div>
-                    
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-lightbulb"></i>
-                        </div>
-                        <div>
-                            <h4>Innovative Learning</h4>
-                            <p>Cutting-edge technology and teaching methods</p>
-                        </div>
-                    </div>
-                    
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-hands-helping"></i>
-                        </div>
-                        <div>
-                            <h4>Character Development</h4>
-                            <p>Focus on integrity, empathy, and leadership</p>
-                        </div>
-                    </div>
+                    <div class="feature-item"><div class="feature-icon"><i class="fas fa-star"></i></div><div><h4>Academic Excellence</h4><p>Top-performing in state assessments</p></div></div>
+                    <div class="feature-item"><div class="feature-icon"><i class="fas fa-heart"></i></div><div><h4>Inclusive Community</h4><p>Welcoming environment for all</p></div></div>
+                    <div class="feature-item"><div class="feature-icon"><i class="fas fa-lightbulb"></i></div><div><h4>Innovative Learning</h4><p>Cutting-edge technology</p></div></div>
+                    <div class="feature-item"><div class="feature-icon"><i class="fas fa-hands-helping"></i></div><div><h4>Character Development</h4><p>Focus on integrity and leadership</p></div></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Programs Section (unchanged) -->
-    <section class="programs section" id="programs">
-        <div class="container">
-            <div class="section-header">
-                <h2>Academic Programs</h2>
-                <p>Comprehensive educational pathways designed for every stage of a student's journey.</p>
-            </div>
-            <div class="programs-container">
-                <div class="program-card elementary">
-                    <div class="program-icon"><i class="fas fa-pencil-alt"></i></div>
-                    <h3>Elementary School</h3>
-                    <p>Grades K-5: Building strong foundations in literacy, numeracy, and social skills.</p>
-                    <ul><li>Literacy and language arts</li><li>Mathematics and problem-solving</li><li>Science exploration</li></ul>
-                    <a href="#" class="btn btn-primary" style="margin-top: 25px;">Learn More</a>
-                </div>
-                <div class="program-card middle">
-                    <div class="program-icon"><i class="fas fa-calculator"></i></div>
-                    <h3>Middle School</h3>
-                    <p>Grades 6-8: Developing critical thinking and academic skills.</p>
-                    <ul><li>Advanced mathematics</li><li>Laboratory sciences</li><li>World languages</li></ul>
-                    <a href="#" class="btn btn-secondary" style="margin-top: 25px;">Learn More</a>
-                </div>
-                <div class="program-card highschool">
-                    <div class="program-icon"><i class="fas fa-graduation-cap"></i></div>
-                    <h3>High School</h3>
-                    <p>Grades 9-12: College-preparatory curriculum with AP and honors courses.</p>
-                    <ul><li>AP and honors courses</li><li>STEM specialization</li><li>College preparation</li></ul>
-                    <a href="#" class="btn btn-primary" style="margin-top: 25px;">Learn More</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Faculty Section (unchanged) -->
-    <section class="faculty section" id="faculty">
-        <div class="container">
-            <div class="section-header"><h2>Meet Our Faculty</h2><p>Dedicated educators bringing passion and expertise.</p></div>
-            <div class="faculty-container">
-                <div class="faculty-card"><div class="faculty-img"><img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dr. Sarah Johnson"></div><div class="faculty-info"><h4>Dr. Sarah Johnson</h4><p>Principal</p><p class="subject">Ed.D. Educational Leadership</p></div></div>
-                <div class="faculty-card"><div class="faculty-img"><img src="https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Mr. David Chen"></div><div class="faculty-info"><h4>Mr. David Chen</h4><p>Science Department Chair</p><p class="subject">M.S. Chemistry</p></div></div>
-                <div class="faculty-card"><div class="faculty-img"><img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ms. Maria Rodriguez"></div><div class="faculty-info"><h4>Ms. Maria Rodriguez</h4><p>Elementary Division Head</p><p class="subject">M.Ed. Childhood Education</p></div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Admissions & News sections (unchanged but keep for completeness) -->
     <section class="admissions section" id="admissions">
         <div class="container admissions-container">
-            <div class="admissions-content"><div class="section-header"><h2>Admissions Process</h2></div><p>Join our community of excellence.</p><ul class="admissions-list"><li>Submit online application</li><li>Schedule tour & interview</li><li>Submit records</li><li>Complete assessment</li></ul><a href="#" class="btn btn-secondary">Download Application</a></div>
-            <div class="admissions-form"><h3>Schedule a Tour</h3><form id="tourForm"><div class="form-group"><label>Parent Name</label><input type="text" id="name" required></div><div class="form-group"><label>Email</label><input type="email" id="email" required></div><div class="form-group"><label>Phone</label><input type="tel" id="phone" required></div><div class="form-group"><label>Grade Level</label><select id="student-grade"><option>K-2</option><option>3-5</option><option>6-8</option><option>9-12</option></select></div><div class="form-group"><label>Tour Date</label><input type="date" id="tour-date" required></div><button type="submit" class="btn btn-primary">Request Tour</button></form></div>
+            <div class="admissions-content">
+                <div class="section-header"><h2>Admissions Process</h2></div>
+                <p>We welcome applications from families who share our commitment to academic excellence and community engagement.</p>
+                <ul class="admissions-list">
+                    <li>Submit online application form</li>
+                    <li>Schedule campus tour and interview</li>
+                    <li>Submit academic records and recommendations</li>
+                    <li>Complete entrance assessment (grades 3+)</li>
+                    <li>Receive admission decision within 3 weeks</li>
+                </ul>
+                <a href="#" class="btn btn-secondary" style="margin-top: 30px;">Download Application</a>
+            </div>
+            <div class="admissions-form">
+                <h3>Schedule a Tour</h3>
+                <form id="tourForm">
+                    <div class="form-group"><label>Parent/Guardian Name</label><input type="text" id="name" required></div>
+                    <div class="form-group"><label>Email Address</label><input type="email" id="email" required></div>
+                    <div class="form-group"><label>Phone Number</label><input type="tel" id="phone" required></div>
+                    <div class="form-group"><label>Student Grade Level</label><select id="student-grade" required><option value="">Select Grade</option><option value="k-2">K-2nd</option><option value="3-5">3rd-5th</option><option value="6-8">6th-8th</option><option value="9-12">9th-12th</option></select></div>
+                    <div class="form-group"><label>Preferred Tour Date</label><input type="date" id="tour-date" required></div>
+                    <button type="submit" class="btn btn-primary" style="width:100%">Request Tour</button>
+                </form>
+            </div>
         </div>
     </section>
 
     <section class="news section" id="news">
-        <div class="container"><div class="section-header"><h2>School News & Events</h2><p>Latest happenings at Twing Memorial.</p></div><div class="news-container"><div class="news-card"><div class="news-img"><img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Science Fair"></div><div class="news-content"><div class="news-meta"><span class="news-category">Academics</span><span>June 15, 2023</span></div><h3>Students Win Regional Science Fair</h3><a href="#" class="btn btn-outline">Read More</a></div></div><div class="news-card"><div class="news-img"><img src="https://images.unsplash.com/photo-1519070994522-88c6b756330e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Art"></div><div class="news-content"><div class="news-meta"><span class="news-category">Arts</span><span>May 22, 2023</span></div><h3>Annual Art Exhibition Opens</h3><a href="#" class="btn btn-outline">Read More</a></div></div><div class="news-card"><div class="news-img"><img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Service"></div><div class="news-content"><div class="news-meta"><span class="news-category">Community</span><span>April 10, 2023</span></div><h3>5000 Service Hours Completed</h3><a href="#" class="btn btn-outline">Read More</a></div></div></div></div>
+        <div class="container">
+            <div class="section-header"><h2>School News & Events</h2><p>Stay updated with the latest happenings.</p></div>
+            <div class="news-container">
+                <div class="news-card"><div class="news-img"><img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Science Fair"></div><div class="news-content"><div class="news-meta"><span class="news-category">Academics</span><span>June 15, 2023</span></div><h3>Students Win Regional Science Fair</h3><a href="#" class="btn btn-outline" style="margin-top:15px;padding:10px 20px;">Read More</a></div></div>
+                <div class="news-card"><div class="news-img"><img src="https://images.unsplash.com/photo-1519070994522-88c6b756330e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Art Exhibition"></div><div class="news-content"><div class="news-meta"><span class="news-category">Arts</span><span>May 22, 2023</span></div><h3>Annual Art Exhibition Opens</h3><a href="#" class="btn btn-outline" style="margin-top:15px;padding:10px 20px;">Read More</a></div></div>
+                <div class="news-card"><div class="news-img"><img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Community Service"></div><div class="news-content"><div class="news-meta"><span class="news-category">Community</span><span>April 10, 2023</span></div><h3>Students Complete 5000 Service Hours</h3><a href="#" class="btn btn-outline" style="margin-top:15px;padding:10px 20px;">Read More</a></div></div>
+            </div>
+        </div>
     </section>
 
     <footer>
-        <div class="container"><div class="footer-container"><div class="footer-col"><h3>Twing Memorial Schools</h3><p>Excellence in K-12 education since 1988.</p><div class="social-links"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-instagram"></i></a></div></div><div class="footer-col"><h3>Contact</h3><div class="contact-info"><p><i class="fas fa-map-marker-alt"></i> 123 Education Lane</p><p><i class="fas fa-phone"></i> (555) 123-4567</p><p><i class="fas fa-envelope"></i> info@twingmemorial.edu</p></div></div><div class="footer-col"><h3>Quick Links</h3><ul class="footer-links"><li><a href="#home">Home</a></li><li><a href="#about">About</a></li><li><a href="#programs">Programs</a></li><li><a href="#admissions">Admissions</a></li></ul></div></div><div class="footer-bottom"><p>&copy; 2023 Twing Memorial Schools. All Rights Reserved.</p></div></div>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col"><h3>Twing Memorial Schools</h3><p>Providing exceptional K-12 education since 1988.</p><div class="social-links"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a></div></div>
+                <div class="footer-col"><h3>Contact Info</h3><div class="contact-info"><p><i class="fas fa-map-marker-alt"></i> 123 Education Lane, Academic City, AC 12345</p><p><i class="fas fa-phone"></i> (555) 123-4567</p><p><i class="fas fa-envelope"></i> info@twingmemorial.edu</p></div></div>
+                <div class="footer-col"><h3>Quick Links</h3><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="#about">About Us</a></li><li><a href="programs.html">Programs</a></li><li><a href="#admissions">Admissions</a></li></ul></div>
+                <div class="footer-col"><h3>Resources</h3><ul class="footer-links"><li><a href="#">School Calendar</a></li><li><a href="#">Parent Portal</a></li><li><a href="#">Student Handbook</a></li><li><a href="#">Employment</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2023 Twing Memorial Schools. All Rights Reserved. | <a href="#" style="color:var(--gold);">Privacy Policy</a></p></div>
+        </div>
     </footer>
 
     <script>
@@ -1114,10 +825,6 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
                 navLinks.classList.remove('active');
                 mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
             });
-        });
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            header.style.boxShadow = window.scrollY > 100 ? '0 5px 20px rgba(0,0,0,0.1)' : '0 2px 20px rgba(0,0,0,0.08)';
         });
         document.getElementById('tourForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -1141,6 +848,7 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
             let animated = false;
             function checkScroll() {
                 const heroSection = document.querySelector('.hero');
+                if(!heroSection) return;
                 const sectionPosition = heroSection.getBoundingClientRect().top;
                 if (sectionPosition < window.innerHeight / 1.3 && !animated) {
                     statElements.forEach((element, index) => {
@@ -1166,4 +874,3 @@ Here is the HTML document with `kit.jpg` set to fill the blue section (hero area
     </script>
 </body>
 </html>
-```
