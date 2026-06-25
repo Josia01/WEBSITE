@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Makoa Farm — Kilimanjaro, Tanzania</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0d1a0d;
+  --forest:#1c3520;
+  --moss:#2e5234;
+  --sage:#5a8a5e;
+  --gold:#c8923a;
+  --gold2:#e0b06a;
+  --sand:#ede3cc;
+  --cream:#f8f4ec;
+  --white:#ffffff;
+  --smoke:#f2ede4;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden}
+
+/* ===== LOADER ===== */
+#loader{position:fixed;inset:0;background:var(--forest);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .7s ease}
+#loader.hide{opacity:0;pointer-events:none}
+.loader-logo{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:var(--sand);letter-spacing:.12em;margin-bottom:2rem}
+.loader-logo span{color:var(--gold)}
+.loader-bar-wrap{width:200px;height:2px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden}
+.loader-bar{height:100%;background:var(--gold);width:0;animation:loadbar 1.8s ease forwards}
+@keyframes loadbar{to{width:100%}}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.6rem 4rem;display:flex;align-items:center;justify-content:space-between;transition:all .4s}
+nav.solid{background:rgba(14,28,14,.97);padding:1rem 4rem;backdrop-filter:blur(12px)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--white);text-decoration:none;letter-spacing:.06em}
+.nav-logo em{color:var(--gold);font-style:normal}
+.nav-links{display:flex;gap:2.4rem;list-style:none}
+.nav-links a{color:rgba(255,255,255,.8);text-decoration:none;font-size:.75rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.nav-links a:hover{color:var(--white)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-book{background:var(--gold);color:var(--white)!important;padding:.55rem 1.6rem;border-radius:1px;transition:background .2s!important}
+.nav-book:hover{background:var(--gold2)!important}
+.nav-book::after{display:none!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:26px;height:1.5px;background:var(--white);transition:all .3s}
+
+/* ===== HERO ===== */
+.hero{position:relative;height:100vh;min-height:700px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.hero-slides{position:absolute;inset:0}
+.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.5s ease;background-size:cover;background-position:center}
+.hero-slide.active{opacity:1}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(5,14,5,.72) 0%,rgba(5,14,5,.3) 50%,rgba(5,14,5,.65) 100%)}
+.hero-content{position:relative;z-index:2;text-align:center;color:var(--white);padding:0 2rem;max-width:900px}
+.hero-eyebrow{font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold2);margin-bottom:1.4rem;font-weight:400;display:flex;align-items:center;justify-content:center;gap:1rem}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:40px;height:1px;background:var(--gold)}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,7vw,6.5rem);font-weight:300;line-height:1.05;letter-spacing:-.01em;margin-bottom:1.6rem}
+.hero h1 em{font-style:italic;color:var(--sand)}
+.hero-sub{font-size:1rem;font-weight:300;line-height:1.8;color:rgba(255,255,255,.75);max-width:480px;margin:0 auto 2.8rem}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-solid{background:var(--gold);color:var(--white);text-decoration:none;padding:.9rem 2.4rem;font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:1px;transition:background .2s,transform .15s;border:none;cursor:pointer;display:inline-block}
+.btn-solid:hover{background:var(--gold2);transform:translateY(-2px)}
+.btn-outline{border:1px solid rgba(255,255,255,.5);color:var(--white);text-decoration:none;padding:.9rem 2.4rem;font-size:.75rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase;border-radius:1px;transition:all .2s;display:inline-block}
+.btn-outline:hover{border-color:var(--white);background:rgba(255,255,255,.08)}
+.hero-dots{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);display:flex;gap:.6rem;z-index:3}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35);cursor:pointer;border:none;transition:all .3s}
+.hero-dot.active{background:var(--gold);transform:scale(1.3)}
+.hero-scroll-hint{position:absolute;bottom:2rem;right:4rem;color:rgba(255,255,255,.45);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;writing-mode:vertical-rl;display:flex;align-items:center;gap:.8rem;z-index:3}
+.hero-scroll-hint::before{content:'';display:block;width:1px;height:50px;background:linear-gradient(to bottom,rgba(255,255,255,.4),transparent);animation:scrollAnim 2s ease-in-out infinite}
+@keyframes scrollAnim{0%,100%{height:50px;opacity:.4}50%{height:70px;opacity:.9}}
+
+/* ===== STRIP STATS ===== */
+.stats-strip{background:var(--forest);display:grid;grid-template-columns:repeat(4,1fr);text-align:center;color:var(--white)}
+.stat-cell{padding:2.4rem 1rem;border-right:1px solid rgba(255,255,255,.1)}
+.stat-cell:last-child{border-right:none}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--gold2);line-height:1}
+.stat-l{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:.4rem}
+
+/* ===== SECTION COMMON ===== */
+.section-label{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);font-weight:500;display:block;margin-bottom:.9rem}
+h2.display{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:400;line-height:1.15;color:var(--forest)}
+h2.display em{font-style:italic;color:var(--moss)}
+
+/* ===== ABOUT SPLIT ===== */
+.about{display:grid;grid-template-columns:1fr 1fr;min-height:90vh}
+.about-images{position:relative;overflow:hidden}
+.about-main-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 8s ease}
+.about-images:hover .about-main-img{transform:scale(1.04)}
+.about-badge{position:absolute;bottom:2.5rem;right:-1.5rem;background:var(--gold);color:var(--white);padding:1.5rem 2rem;border-radius:1px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.25);transform:rotate(2deg)}
+.about-badge-num{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:600;line-height:1;display:block}
+.about-badge-text{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;opacity:.85}
+.about-content{background:var(--cream);padding:6rem 5rem;display:flex;flex-direction:column;justify-content:center}
+.about-content p{font-size:.96rem;line-height:1.9;color:#4a5a4a;margin-bottom:1rem}
+.about-content p:last-of-type{margin-bottom:2rem}
+.about-pills{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.5rem}
+.pill{background:var(--forest);color:var(--sand);padding:.35rem .9rem;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;border-radius:20px}
+
+/* ===== GALLERY MOSAIC ===== */
+.gallery-section{padding:7rem 4rem;background:var(--smoke)}
+.gallery-section .section-header{margin-bottom:3rem;max-width:520px}
+.mosaic{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(3,200px);gap:6px}
+.mosaic-item{overflow:hidden;cursor:pointer;position:relative}
+.mosaic-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.mosaic-item:hover img{transform:scale(1.08)}
+.mosaic-item::after{content:'';position:absolute;inset:0;background:rgba(10,20,10,0);transition:background .3s}
+.mosaic-item:hover::after{background:rgba(10,20,10,.2)}
+.m1{grid-column:1/6;grid-row:1/3}
+.m2{grid-column:6/9;grid-row:1/2}
+.m3{grid-column:9/13;grid-row:1/2}
+.m4{grid-column:6/10;grid-row:2/3}
+.m5{grid-column:10/13;grid-row:2/3}
+.m6{grid-column:1/5;grid-row:3/4}
+.m7{grid-column:5/9;grid-row:3/4}
+.m8{grid-column:9/13;grid-row:3/4}
+.gallery-more{margin-top:2rem;text-align:center}
+
+/* ===== LIGHTBOX ===== */
+#lightbox{position:fixed;inset:0;background:rgba(5,14,5,.95);z-index:2000;display:none;align-items:center;justify-content:center;padding:2rem}
+#lightbox.open{display:flex}
+#lb-img{max-width:90vw;max-height:85vh;object-fit:contain;border-radius:2px;box-shadow:0 20px 80px rgba(0,0,0,.6)}
+#lb-close{position:absolute;top:1.5rem;right:2rem;color:rgba(255,255,255,.7);font-size:2rem;cursor:pointer;background:none;border:none;line-height:1;transition:color .2s}
+#lb-close:hover{color:var(--white)}
+#lb-prev,#lb-next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:var(--white);font-size:1.5rem;width:50px;height:50px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+#lb-prev{left:1.5rem}
+#lb-next{right:1.5rem}
+#lb-prev:hover,#lb-next:hover{background:var(--gold);border-color:var(--gold)}
+#lb-caption{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.6);font-size:.78rem;letter-spacing:.08em}
+
+/* ===== ACTIVITIES ===== */
+.activities{padding:8rem 4rem;background:var(--cream)}
+.activities-header{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:end;margin-bottom:4rem;max-width:1200px;margin-left:auto;margin-right:auto}
+.act-intro p{font-size:.94rem;line-height:1.85;color:#555;margin-top:1rem}
+.activity-tabs{display:flex;gap:.5rem;flex-wrap:wrap}
+.act-tab{background:transparent;border:1px solid rgba(46,82,52,.3);color:var(--moss);padding:.5rem 1.2rem;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:1px;transition:all .25s;font-family:'Jost',sans-serif}
+.act-tab.active,.act-tab:hover{background:var(--forest);border-color:var(--forest);color:var(--white)}
+.activity-panels{max-width:1200px;margin:0 auto}
+.activity-panel{display:none;grid-template-columns:1.1fr 1fr;gap:3rem;align-items:center}
+.activity-panel.active{display:grid}
+.activity-panel-img{aspect-ratio:4/3;overflow:hidden;border-radius:2px}
+.activity-panel-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.activity-panel-img:hover img{transform:scale(1.05)}
+.activity-panel-content h3{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;color:var(--forest);margin-bottom:1rem}
+.activity-panel-content p{font-size:.92rem;line-height:1.9;color:#555;margin-bottom:1rem}
+.activity-tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.4rem}
+.atag{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);padding:.25rem .7rem;border-radius:20px}
+
+/* ===== ROOMS ===== */
+.rooms{background:var(--forest);padding:8rem 4rem;color:var(--white)}
+.rooms-inner{max-width:1200px;margin:0 auto}
+.rooms-header{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;margin-bottom:4rem}
+.rooms-header .section-label{color:var(--gold2)}
+.rooms-header h2{color:var(--sand);font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:300;line-height:1.2}
+.rooms-header h2 em{font-style:italic}
+.rooms-header p{font-size:.94rem;line-height:1.85;color:rgba(255,255,255,.6)}
+.rooms-slider-wrap{position:relative}
+.rooms-slider{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.room-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:2px;overflow:hidden;cursor:pointer;transition:transform .3s,border-color .3s}
+.room-card:hover{transform:translateY(-6px);border-color:rgba(200,146,58,.4)}
+.room-card-img{aspect-ratio:4/3;overflow:hidden}
+.room-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.room-card:hover .room-card-img img{transform:scale(1.07)}
+.room-card-body{padding:1.6rem}
+.room-card-body h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:var(--sand);margin-bottom:.5rem}
+.room-card-body p{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.7}
+.room-card-body .room-feat{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
+.rfeat{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold2);border:1px solid rgba(200,146,58,.35);padding:.2rem .55rem;border-radius:10px}
+
+/* ===== CONSERVATION ===== */
+.conservation{padding:0;display:grid;grid-template-columns:1fr 1fr;min-height:70vh}
+.conservation-img{position:relative;overflow:hidden}
+.conservation-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 8s ease}
+.conservation-img:hover img{transform:scale(1.05)}
+.conservation-img-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(10,22,10,.3),rgba(10,22,10,0))}
+.conservation-content{background:var(--ink);color:var(--white);padding:6rem 5rem;display:flex;flex-direction:column;justify-content:center}
+.conservation-content .section-label{color:var(--gold2)}
+.conservation-content h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:300;color:var(--sand);line-height:1.2;margin-bottom:1.4rem}
+.conservation-content h2 em{font-style:italic}
+.conservation-content p{font-size:.92rem;line-height:1.85;color:rgba(255,255,255,.6);margin-bottom:1rem}
+.con-items{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:2rem}
+.con-item{border:1px solid rgba(255,255,255,.1);padding:1.2rem;border-radius:1px;transition:border-color .3s}
+.con-item:hover{border-color:rgba(200,146,58,.4)}
+.con-item-icon{font-size:1.6rem;margin-bottom:.6rem}
+.con-item h4{font-size:.8rem;font-weight:500;letter-spacing:.06em;color:var(--sand);margin-bottom:.3rem}
+.con-item p{font-size:.75rem;color:rgba(255,255,255,.45);line-height:1.6;margin:0}
+
+/* ===== TESTIMONIALS ===== */
+.testimonials{padding:8rem 4rem;background:var(--smoke)}
+.testimonials-inner{max-width:1100px;margin:0 auto}
+.testi-header{text-align:center;margin-bottom:4rem}
+.testi-slider{position:relative;overflow:hidden}
+.testi-track{display:flex;transition:transform .6s cubic-bezier(.25,.1,.25,1)}
+.testi-item{min-width:100%;padding:0 1rem}
+.testi-card{background:var(--white);border-radius:2px;padding:3.5rem;text-align:center;max-width:680px;margin:0 auto;box-shadow:0 4px 40px rgba(0,0,0,.07)}
+.testi-stars{color:var(--gold);font-size:1rem;margin-bottom:1.5rem;letter-spacing:.15em}
+.testi-card blockquote{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-style:italic;font-weight:400;line-height:1.65;color:var(--forest);margin-bottom:2rem}
+.testi-author{font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
+.testi-from{font-size:.72rem;color:#999;margin-top:.3rem}
+.testi-nav{display:flex;gap:.8rem;justify-content:center;margin-top:2.5rem}
+.testi-dot{width:7px;height:7px;border-radius:50%;background:rgba(46,82,52,.2);border:none;cursor:pointer;transition:all .25s}
+.testi-dot.active{background:var(--gold);transform:scale(1.3)}
+
+/* ===== CONTACT ===== */
+.contact{background:var(--forest);padding:8rem 4rem;color:var(--white)}
+.contact-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1.2fr;gap:6rem;align-items:start}
+.contact-info .section-label{color:var(--gold2)}
+.contact-info h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:300;color:var(--sand);line-height:1.2;margin-bottom:1.4rem}
+.contact-info p{font-size:.92rem;line-height:1.85;color:rgba(255,255,255,.6);margin-bottom:2rem}
+.contact-rows{display:flex;flex-direction:column;gap:0}
+.contact-row{display:flex;gap:1.2rem;align-items:flex-start;padding:1.2rem 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.contact-row:first-child{border-top:1px solid rgba(255,255,255,.08)}
+.contact-row-icon{width:36px;height:36px;border:1px solid rgba(200,146,58,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;margin-top:.1rem}
+.contact-row-label{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold2);margin-bottom:.3rem}
+.contact-row-val{font-size:.88rem;color:rgba(255,255,255,.7)}
+.contact-row-val a{color:rgba(255,255,255,.7);text-decoration:none;transition:color .2s}
+.contact-row-val a:hover{color:var(--gold2)}
+/* Form */
+.contact-form{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);padding:3rem;border-radius:2px}
+.contact-form h3{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;color:var(--sand);margin-bottom:2rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{margin-bottom:1.2rem}
+.form-group label{display:block;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.5rem}
+.form-group input,.form-group textarea,.form-group select{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--white);padding:.8rem 1rem;font-size:.88rem;font-family:'Jost',sans-serif;border-radius:1px;outline:none;transition:border-color .2s}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:rgba(200,146,58,.6)}
+.form-group textarea{resize:vertical;min-height:110px}
+.form-group select option{background:var(--forest);color:var(--white)}
+.form-submit{width:100%;margin-top:.5rem}
+.form-success{display:none;background:rgba(90,138,94,.15);border:1px solid rgba(90,138,94,.4);padding:1rem;border-radius:1px;color:var(--sage);font-size:.85rem;text-align:center;margin-top:1rem}
+
+/* ===== FOOTER ===== */
+footer{background:#060f06;color:rgba(255,255,255,.4);padding:3rem 4rem;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:2rem}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--white)}
+.footer-logo em{color:var(--gold);font-style:normal}
+.footer-logo small{display:block;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:.2rem}
+.footer-links{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap}
+.footer-links a{color:rgba(255,255,255,.35);text-decoration:none;font-size:.7rem;letter-spacing:.1em;transition:color .2s}
+.footer-links a:hover{color:var(--gold2)}
+.footer-right{text-align:right}
+.social-row{display:flex;gap:.8rem;justify-content:flex-end;margin-bottom:.8rem}
+.soc{width:34px;height:34px;border:1px solid rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);text-decoration:none;font-size:.75rem;font-weight:600;transition:all .2s}
+.soc:hover{border-color:var(--gold);color:var(--gold)}
+.footer-copy{font-size:.68rem}
+
+/* ===== MOBILE NAV ===== */
+.mobile-menu{position:fixed;inset:0;background:var(--forest);z-index:400;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;transform:translateX(100%);transition:transform .4s cubic-bezier(.25,.1,.25,1)}
+.mobile-menu.open{transform:translateX(0)}
+.mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;color:var(--sand);text-decoration:none;letter-spacing:.04em;transition:color .2s}
+.mobile-menu a:hover{color:var(--gold2)}
+
+/* ===== REVEAL ANIMATION ===== */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  nav{padding:1.2rem 2rem}
+  nav.solid{padding:.9rem 2rem}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .about{grid-template-columns:1fr}
+  .about-content{padding:4rem 2.5rem}
+  .about-badge{right:1rem}
+  .activities-header{grid-template-columns:1fr}
+  .activity-panel{grid-template-columns:1fr}
+  .rooms-header{grid-template-columns:1fr}
+  .rooms-slider{grid-template-columns:1fr 1fr}
+  .conservation{grid-template-columns:1fr}
+  .conservation-img{min-height:400px}
+  .contact-inner{grid-template-columns:1fr}
+  .contact{padding:5rem 2rem}
+  footer{grid-template-columns:1fr;text-align:center;padding:2.5rem 2rem}
+  .footer-right{text-align:center}
+  .social-row{justify-content:center}
+  .gallery-section,.activities{padding:5rem 2rem}
+  .rooms{padding:5rem 2rem}
+}
+@media(max-width:768px){
+  .stats-strip{grid-template-columns:1fr 1fr}
+  .mosaic{grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(5,140px)}
+  .m1{grid-column:1/7;grid-row:1/3}
+  .m2{grid-column:1/4;grid-row:3/4}
+  .m3{grid-column:4/7;grid-row:3/4}
+  .m4{grid-column:1/4;grid-row:4/5}
+  .m5{grid-column:4/7;grid-row:4/5}
+  .m6{grid-column:1/3;grid-row:5/6}
+  .m7{grid-column:3/5;grid-row:5/6}
+  .m8{grid-column:5/7;grid-row:5/6}
+  .rooms-slider{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .con-items{grid-template-columns:1fr}
+  .contact-form{padding:2rem}
+  .testimonials{padding:5rem 1.5rem}
+}
+@media(max-width:480px){
+  .hero h1{font-size:2.4rem}
+  .hero-scroll-hint{display:none}
+  .conservation-content{padding:4rem 2rem}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo"><em>Makoa</em> Farm</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button id="lb-close">&#x2715;</button>
+  <button id="lb-prev">&#8592;</button>
+  <img id="lb-img" src="" alt=""/>
+  <button id="lb-next">&#8594;</button>
+  <div id="lb-caption"></div>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#gallery" onclick="closeMobile()">Gallery</a>
+  <a href="#activities" onclick="closeMobile()">Activities</a>
+  <a href="#rooms" onclick="closeMobile()">Rooms</a>
+  <a href="#conservation" onclick="closeMobile()">Conservation</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#"><em>Makoa</em> Farm</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#activities">Activities</a></li>
+    <li><a href="#rooms">Rooms</a></li>
+    <li><a href="#conservation">Conservation</a></li>
+    <li><a href="#contact" class="nav-book">Book a Stay</a></li>
+  </ul>
+  <button class="hamburger" id="burger" onclick="toggleMobile()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-slides" id="heroSlides">
+    <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=1800&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=1800&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1800&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1504432842672-1a79f78e4084?w=1800&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1551632811-561732d1e306?w=1800&q=80')"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Northern Tanzania · Est. 1901</div>
+    <h1>Life at the Foot<br>of <em>Kilimanjaro</em></h1>
+    <p class="hero-sub">A colonial farm estate in the Chagga highlands — where Africa's highest peak, river valleys, and untamed wildlife are your daily neighbours.</p>
+    <div class="hero-btns">
+      <a href="#rooms" class="btn-solid">Explore Your Stay</a>
+      <a href="#activities" class="btn-outline">Discover Activities</a>
+    </div>
+  </div>
+  <div class="hero-dots" id="heroDots"></div>
+  <div class="hero-scroll-hint">Scroll</div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat-cell"><div class="stat-n">1901</div><div class="stat-l">Year Founded</div></div>
+  <div class="stat-cell"><div class="stat-n">5,895<span style="font-size:1.2rem">m</span></div><div class="stat-l">Kilimanjaro</div></div>
+  <div class="stat-cell"><div class="stat-n">5+</div><div class="stat-l">Cottages & Rooms</div></div>
+  <div class="stat-cell"><div class="stat-n">12+</div><div class="stat-l">Activities</div></div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-images">
+    <img class="about-main-img" src="https://images.unsplash.com/photo-1534177616072-ef7dc120449d?w=900&q=80" alt="Makoa Farm estate with Kilimanjaro in background"/>
+    <div class="about-badge">
+      <span class="about-badge-num">100%</span>
+      <span class="about-badge-text">Conservation Funded</span>
+    </div>
+  </div>
+  <div class="about-content reveal">
+    <span class="section-label">Our Story</span>
+    <h2 class="display">A Living Estate<br><em>in the Highlands</em></h2>
+    <p>Nestled near the Machame Gate at the foot of Mount Kilimanjaro, Makoa Farm is a place where time moves differently. The original colonial farmhouse — built in 1901 on a former coffee plantation — has been lovingly preserved and now welcomes guests from around the world.</p>
+    <p>You are surrounded by the vibrant Chagga community, their coffee farms, and banana groves. To the south, Maasai herders move their cattle across ancient plains. The Makoa and Kikafu river valleys frame the estate, offering gallery forests, hidden waterfalls, and picturesque villages.</p>
+    <p>Our veterinary practice on the farm operates alongside Tanzanian rangers on wildlife rescue missions. Every booking you make directly funds this work.</p>
+    <div class="about-pills">
+      <span class="pill">Chagga Culture</span>
+      <span class="pill">River Valleys</span>
+      <span class="pill">Wildlife Rescue</span>
+      <span class="pill">Colonial History</span>
+      <span class="pill">Kilimanjaro Views</span>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section" id="gallery">
+  <div class="section-header reveal">
+    <span class="section-label">Photo Gallery</span>
+    <h2 class="display">Life on<br><em>Makoa Farm</em></h2>
+  </div>
+  <div class="mosaic" id="mosaic">
+    <div class="mosaic-item m1" data-idx="0"><img src="https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/Makoa-Cottages-mit-Kili-Blick.jpg" alt="Makoa Cottages with Kilimanjaro view" loading="lazy"/></div>
+    <div class="mosaic-item m2" data-idx="1"><img src="https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/Makoa_breakfast-view.jpg" alt="Breakfast with Kilimanjaro view" loading="lazy"/></div>
+    <div class="mosaic-item m3" data-idx="2"><img src="https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/Makoa-Cottage-1.jpg" alt="Makoa Cottage interior" loading="lazy"/></div>
+    <div class="mosaic-item m4" data-idx="3"><img src="https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/MakoaCottage-Nr3.jpg" alt="Makoa Cottage No. 3" loading="lazy"/></div>
+    <div class="mosaic-item m5" data-idx="4"><img src="https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/P1000446.jpg" alt="Kilimanjaro Sunset" loading="lazy"/></div>
+    <div class="mosaic-item m6" data-idx="5"><img src="https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/Makoa-guest-house.jpg" alt="Makoa Guesthouse" loading="lazy"/></div>
+    <div class="mosaic-item m7" data-idx="6"><img src="https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/Guesthouse-innen.jpg" alt="Guesthouse interior" loading="lazy"/></div>
+    <div class="mosaic-item m8" data-idx="7"><img src="https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/Makoa-Cottage-Nr-3-1.jpg" alt="Cottage terrace" loading="lazy"/></div>
+  </div>
+  <div class="gallery-more reveal">
+    <button class="btn-solid" onclick="openLightbox(0)">View Full Gallery</button>
+  </div>
+</section>
+
+<!-- ACTIVITIES -->
+<section class="activities" id="activities">
+  <div class="activities-header reveal">
+    <div>
+      <span class="section-label">What To Do</span>
+      <h2 class="display">Adventures<br><em>Around the Farm</em></h2>
+    </div>
+    <div>
+      <p class="act-intro">From guided river walks to Maasai market visits and big game safaris — there is something extraordinary around every corner of Northern Tanzania.</p>
+      <div class="activity-tabs" style="margin-top:1.5rem" id="actTabs">
+        <button class="act-tab active" data-panel="0">Nature Walk</button>
+        <button class="act-tab" data-panel="1">Hot Springs</button>
+        <button class="act-tab" data-panel="2">Maasai Market</button>
+        <button class="act-tab" data-panel="3">Waterfall Hike</button>
+        <button class="act-tab" data-panel="4">Big Game Safari</button>
+        <button class="act-tab" data-panel="5">Lake Chala</button>
+        <button class="act-tab" data-panel="6">Kili Park</button>
+        <button class="act-tab" data-panel="7">Chagga Culture</button>
+      </div>
+    </div>
+  </div>
+  <div class="activity-panels" id="actPanels">
+
+    <div class="activity-panel active">
+      <div class="activity-panel-img"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80" alt="Makoa Nature Walk" loading="lazy"/></div>
+      <div class="activity-panel-content">
+        <span class="section-label">3–4 Hours</span>
+        <h3>Makoa Nature Walk</h3>
+        <p>Walk across the farm, through bushland, gallery forest, and river valley to hidden spots along the Makoa and Kikafu rivers. Your guide will explain the medicinal uses of native plants along the way.</p>
+        <p>Swim at a beautiful natural pond, enjoy a waterfall massage, spot primates and exotic birds — and meet Suzie, Lieve, Pina and Fridolin: the farm's resident sheep and donkeys who love to join the walk.</p>
+        <div class="activity-tags"><span class="atag">Guided</span><span class="atag">Wildlife</span><span class="atag">River</span><span class="atag">All Levels</span></div>
+      </div>
+    </div>
+
+    <div class="activity-panel">
+      <div class="activity-panel-img"><img src="https://images.unsplash.com/photo-1504432842672-1a79f78e4084?w=800&q=80" alt="Hot Springs Tanzania" loading="lazy"/></div>
+      <div class="activity-panel-content">
+        <span class="section-label">Full Day</span>
+        <h3>Hot Springs Excursion</h3>
+        <p>Depart by 4WD into the Maasai Steppe to reach the legendary Hot Springs south of the farm. A guided walk leads you through a unique biotope between springs and rivers.</p>
+        <p>Watch for exotic birds, monkeys, shy crocodiles, gazelles, and porcupines. Picnic under ancient fig trees and relax in the warm natural spring waters.</p>
+        <div class="activity-tags"><span class="atag">4WD</span><span class="atag">Swimming</span><span class="atag">Wildlife</span><span class="atag">Picnic</span></div>
+      </div>
+    </div>
+
+    <div class="activity-panel">
+      <div class="activity-panel-img"><img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&q=80" alt="Maasai Market Tanzania" loading="lazy"/></div>
+      <div class="activity-panel-content">
+        <span class="section-label">Half Day</span>
+        <h3>Maasai Market Visit</h3>
+        <p>Step into one of the most colourful spectacles in Northern Tanzania — a traditional Maasai cattle market. Goods arrive by donkey from the steppe, sometimes after days of travel.</p>
+        <p>The organised chaos of traders, animals, and barter is an unforgettable window into Maasai life. Optional: combine with a visit to Moshi's old colonial quarter.</p>
+        <div class="activity-tags"><span class="atag">Cultural</span><span class="atag">Photography</span><span class="atag">Local Life</span></div>
+      </div>
+    </div>
+
+    <div class="activity-panel">
+      <div class="activity-panel-img"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="Materuni Waterfall" loading="lazy"/></div>
+      <div class="activity-panel-content">
+        <span class="section-label">Half Day · Fee Applies</span>
+        <h3>Materuni Waterfall</h3>
+        <p>A stunning walking area on the eastern slopes of Kilimanjaro leads to the Materuni Waterfall, with panoramic views through coffee farms and Chagga villages.</p>
+        <p>The route includes a guided coffee tour: learn how coffee is grown, processed, and roasted — then taste the result fresh from the source.</p>
+        <div class="activity-tags"><span class="atag">Hiking</span><span class="atag">Coffee Tour</span><span class="atag">Waterfall</span></div>
+      </div>
+    </div>
+
+    <div class="activity-panel">
+      <div class="activity-panel-img"><img src="https://images.unsplash.com/photo-1612215315070-a27ef4c0bb47?w=800&q=80" alt="West Kilimanjaro Safari" loading="lazy"/></div>
+      <div class="activity-panel-content">
+        <span class="section-label">Full Day · Fees Apply</span>
+        <h3>West Kilimanjaro Big Game</h3>
+        <p>Drive by jeep into the West Kilimanjaro wildlife corridor — a passage connecting Mt Meru, Arusha National Park, and Amboseli in Kenya. Elephants, zebras, wildebeest, eland, and countless antelopes roam freely here alongside Maasai herds.</p>
+        <p>Optional sunset highlight: a Maasai chief will welcome you into his boma (traditional village) for a private cultural encounter.</p>
+        <div class="activity-tags"><span class="atag">Jeep Safari</span><span class="atag">Big 5</span><span class="atag">Maasai Boma</span><span class="atag">Sunset</span></div>
+      </div>
+    </div>
+
+    <div class="activity-panel">
+      <div class="activity-panel-img"><img src="https://images.unsplash.com/photo-1580674285054-bed31e145f59?w=800&q=80" alt="Lake Chala crater lake" loading="lazy"/></div>
+      <div class="activity-panel-content">
+        <span class="section-label">Half Day · Fees Apply</span>
+        <h3>Lake Chala</h3>
+        <p>A spectacular crater lake on the Tanzania–Kenya border, fed by underground springs from Kilimanjaro itself. Its colour shifts from deep blue to turquoise depending on the season, enclosed by a 100-metre crater rim.</p>
+        <p>Swim in the crystal-clear water, watch baboons play on the rim, and spot endemic Lake Chala Tilapia in the shallows. A short hike reveals the full panorama.</p>
+        <div class="activity-tags"><span class="atag">Swimming</span><span class="atag">Birding</span><span class="atag">Scenic Hike</span></div>
+      </div>
+    </div>
+
+    <div class="activity-panel">
+      <div class="activity-panel-img"><img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800&q=80" alt="Kilimanjaro National Park rainforest" loading="lazy"/></div>
+      <div class="activity-panel-content">
+        <span class="section-label">Full Day · Fees Apply</span>
+        <h3>Kilimanjaro National Park</h3>
+        <p>Day hike in the Kilimanjaro National Park through tropical rainforest — enormous jungle trees, strangler figs, and the legendary black-and-white Colobus monkeys (Guereza) overhead.</p>
+        <p>Your mountain guide shares deep knowledge of the flora and fauna of Africa's highest peak. A truly immersive experience for nature lovers and keen hikers alike.</p>
+        <div class="activity-tags"><span class="atag">Guided Hike</span><span class="atag">Primates</span><span class="atag">Rainforest</span><span class="atag">Park Ranger</span></div>
+      </div>
+    </div>
+
+    <div class="activity-panel">
+      <div class="activity-panel-img"><img src="https://images.unsplash.com/photo-1609101402455-9d217e6bba05?w=800&q=80" alt="Chagga village coffee culture" loading="lazy"/></div>
+      <div class="activity-panel-content">
+        <span class="section-label">Half Day</span>
+        <h3>Chagga Culture & Coffee</h3>
+        <p>A local Chagga guide leads you through his village and reveals the remarkably sophisticated farming system the Chagga have developed over centuries — an ingenious mix of banana groves, coffee plantations, and water management.</p>
+        <p>Visit a traditional Chagga house, walk the Kikafu stream path, and stop at the Machare Coffee & Tea Farm to taste freshly brewed single-origin Kilimanjaro coffee.</p>
+        <div class="activity-tags"><span class="atag">Village Tour</span><span class="atag">Coffee Tasting</span><span class="atag">Cultural</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ROOMS -->
+<section class="rooms" id="rooms">
+  <div class="rooms-inner">
+    <div class="rooms-header reveal">
+      <div>
+        <span class="section-label">Accommodation</span>
+        <h2>Four Cosy Cottages<br><em>&amp; the Papaya House</em></h2>
+      </div>
+      <div>
+        <p>Individually designed guesthouses, each with a private bathroom and a veranda or terrace with direct Kilimanjaro views. The historic "Papaya Dryer" maisonette sleeps up to 5 — perfect for families.</p>
+      </div>
+    </div>
+    <div class="rooms-slider">
+      <div class="room-card" onclick="openLightboxSrc('https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/Makoa-Cottage-1.jpg','Cottage 1 — Double or Twin Room')">
+        <div class="room-card-img"><img src="https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/Makoa-Cottage-1-400x284.jpg" alt="Cottage 1" loading="lazy"/></div>
+        <div class="room-card-body">
+          <h3>Cottage 1 &amp; 2</h3>
+          <p>Cozy double or twin rooms with private en-suite bathroom and a veranda facing Kilimanjaro.</p>
+          <div class="room-feat"><span class="rfeat">2 Persons</span><span class="rfeat">Kili View</span><span class="rfeat">En-Suite</span><span class="rfeat">Veranda</span></div>
+        </div>
+      </div>
+      <div class="room-card" onclick="openLightboxSrc('https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/MakoaCottage-Nr3.jpg','Cottage 3 — Garden Cottage')">
+        <div class="room-card-img"><img src="https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/MakoaCottage-Nr3-400x284.jpg" alt="Cottage 3" loading="lazy"/></div>
+        <div class="room-card-body">
+          <h3>Cottage 3 &amp; 4</h3>
+          <p>Lovingly furnished garden cottages with terrace, private bathroom, and stunning mountain backdrop.</p>
+          <div class="room-feat"><span class="rfeat">2 Persons</span><span class="rfeat">Garden</span><span class="rfeat">En-Suite</span><span class="rfeat">Terrace</span></div>
+        </div>
+      </div>
+      <div class="room-card" onclick="openLightboxSrc('https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/Makoa-guest-house.jpg','The Papaya House — Maisonette Guesthouse')">
+        <div class="room-card-img"><img src="https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/Makoa-guest-house-400x284.jpg" alt="Papaya Dryer Guesthouse" loading="lazy"/></div>
+        <div class="room-card-body">
+          <h3>The Papaya House</h3>
+          <p>The original papaya dryer — now a charming maisonette sleeping 2–5. Double bed downstairs, two beds up. Large terrace overlooking the farmhouse and garden.</p>
+          <div class="room-feat"><span class="rfeat">Up to 5</span><span class="rfeat">Maisonette</span><span class="rfeat">Family</span><span class="rfeat">Large Terrace</span></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:3rem;text-align:center">
+      <a href="#contact" class="btn-solid">Enquire About Availability</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONSERVATION -->
+<section class="conservation" id="conservation">
+  <div class="conservation-img">
+    <img src="https://images.unsplash.com/photo-1549366021-119166ba3e46?w=900&q=80" alt="Wildlife conservation Tanzania"/>
+    <div class="conservation-img-overlay"></div>
+  </div>
+  <div class="conservation-content reveal">
+    <span class="section-label">Our Mission</span>
+    <h2>Every Stay<br><em>Funds the Wild</em></h2>
+    <p>Makoa Farm operates a dedicated veterinary practice caring for domestic and wild animals alike. We work in close partnership with Tanzanian rangers on critical wildlife rescue missions across the region.</p>
+    <p>By choosing Makoa Farm, you become an active supporter of wildlife conservation, environmental preservation, and the wellbeing of the local ecosystem.</p>
+    <div class="con-items">
+      <div class="con-item">
+        <div class="con-item-icon">🦁</div>
+        <h4>Wildlife Rescue</h4>
+        <p>Active rescue & rehabilitation of wild animals with park rangers</p>
+      </div>
+      <div class="con-item">
+        <div class="con-item-icon">🐾</div>
+        <h4>Veterinary Care</h4>
+        <p>On-site veterinary practice for domestic & visiting animals</p>
+      </div>
+      <div class="con-item">
+        <div class="con-item-icon">🌿</div>
+        <h4>Habitat Protection</h4>
+        <p>Preserving gallery forests, river corridors, and native flora</p>
+      </div>
+      <div class="con-item">
+        <div class="con-item-icon">🏫</div>
+        <h4>Children's Projects</h4>
+        <p>Jane Goodall Roots &amp; Shoots Forest Club &amp; school sponsorships</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="testimonials-inner">
+    <div class="testi-header reveal">
+      <span class="section-label">Guest Stories</span>
+      <h2 class="display">Voices from<br><em>the Farm</em></h2>
+    </div>
+    <div class="testi-slider">
+      <div class="testi-track" id="testiTrack">
+        <div class="testi-item"><div class="testi-card"><div class="testi-stars">★★★★★</div><blockquote>"Waking up with Kilimanjaro's snow-capped peak glowing in the morning mist right from our veranda — you simply cannot plan for that kind of magic. Makoa Farm is the real Tanzania."</blockquote><div class="testi-author">Sarah M.</div><div class="testi-from">United Kingdom</div></div></div>
+        <div class="testi-item"><div class="testi-card"><div class="testi-stars">★★★★★</div><blockquote>"Elisabeth and her team treated us like family. The meals were outstanding, the nature walks unforgettable, and knowing every euro we paid funds wildlife rescue — it made the whole experience deeply meaningful."</blockquote><div class="testi-author">Thomas & Lena K.</div><div class="testi-from">Germany</div></div></div>
+        <div class="testi-item"><div class="testi-card"><div class="testi-stars">★★★★★</div><blockquote>"We visited the Maasai market, swam at the hot springs, spotted bush babies after dinner… and left knowing we'd be back. There is simply nowhere else like Makoa Farm."</blockquote><div class="testi-author">Marie-Claire D.</div><div class="testi-from">France</div></div></div>
+        <div class="testi-item"><div class="testi-card"><div class="testi-stars">★★★★★</div><blockquote>"The cottages are charming, the food is fresh and delicious, and the team's knowledge of local ecology is extraordinary. The bush baby feeding at dusk was worth the entire trip alone."</blockquote><div class="testi-author">James & Rachel O.</div><div class="testi-from">Australia</div></div></div>
+      </div>
+    </div>
+    <div class="testi-nav" id="testiNav"></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="contact-info reveal">
+      <span class="section-label">Get In Touch</span>
+      <h2>Plan Your<br><em>Kilimanjaro Stay</em></h2>
+      <p>We'd love to hear from you. Whether you're planning a short retreat, a family holiday, or a longer volunteer stay — Elisabeth and the Makoa team are happy to help you plan every detail.</p>
+      <div class="contact-rows">
+        <div class="contact-row">
+          <div class="contact-row-icon">📍</div>
+          <div><div class="contact-row-label">Address</div><div class="contact-row-val">Makoa Farm Ltd. · P.O. Box 203 Moshi · Tanzania</div></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-row-icon">📞</div>
+          <div><div class="contact-row-label">Phone & WhatsApp</div><div class="contact-row-val"><a href="tel:+255754312896">+255 754 31 28 96</a></div></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-row-icon">✉️</div>
+          <div><div class="contact-row-label">Email</div><div class="contact-row-val"><a href="mailto:info@makoa-farm.com">info@makoa-farm.com</a></div></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-row-icon">🌐</div>
+          <div><div class="contact-row-label">Follow Us</div><div class="contact-row-val"><a href="https://www.facebook.com/MakoaFarmAndProjects" target="_blank">Facebook</a> &nbsp;·&nbsp; <a href="https://www.instagram.com/makoa_farm_and_projects/" target="_blank">Instagram</a></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <h3>Send an Enquiry</h3>
+      <div class="form-row">
+        <div class="form-group"><label>Your Name</label><input type="text" placeholder="Elisabeth Müller" id="f-name"/></div>
+        <div class="form-group"><label>Email Address</label><input type="email" placeholder="hello@example.com" id="f-email"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Arrival Date</label><input type="date" id="f-arrive"/></div>
+        <div class="form-group"><label>Departure Date</label><input type="date" id="f-depart"/></div>
+      </div>
+      <div class="form-group">
+        <label>Number of Guests</label>
+        <select id="f-guests">
+          <option value="">Select…</option>
+          <option>1 person</option>
+          <option>2 persons</option>
+          <option>3 persons</option>
+          <option>4 persons</option>
+          <option>5+ persons / Family</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Your Message</label>
+        <textarea placeholder="Tell us about your visit, any special requests, or questions…" id="f-msg"></textarea>
+      </div>
+      <button class="btn-solid form-submit" onclick="submitForm()">Send Enquiry</button>
+      <div class="form-success" id="f-success">✓ Thank you! We'll be in touch within 24 hours.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <div><em>Makoa</em> Farm</div>
+    <small>Northern Tanzania · Est. 1901</small>
+  </div>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#activities">Activities</a>
+    <a href="#rooms">Rooms</a>
+    <a href="#conservation">Conservation</a>
+    <a href="#contact">Contact</a>
+    <a href="https://gaestehaus-kilimanjaro.de/en/payment-and-cancellation-conditions/" target="_blank">Cancellations</a>
+    <a href="https://gaestehaus-kilimanjaro.de/en/imprint/" target="_blank">Imprint</a>
+  </div>
+  <div class="footer-right">
+    <div class="social-row">
+      <a class="soc" href="https://www.facebook.com/MakoaFarmAndProjects" target="_blank" rel="noopener">f</a>
+      <a class="soc" href="https://www.instagram.com/makoa_farm_and_projects/" target="_blank" rel="noopener">ig</a>
+    </div>
+    <div class="footer-copy">© 2025 Makoa Farm Ltd. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+// ── LOADER ──
+window.addEventListener('load',()=>{setTimeout(()=>{document.getElementById('loader').classList.add('hide')},1900)});
+
+// ── NAV scroll ──
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>80));
+
+// ── MOBILE MENU ──
+const mobileMenu=document.getElementById('mobileMenu');
+let menuOpen=false;
+function toggleMobile(){menuOpen=!menuOpen;mobileMenu.classList.toggle('open',menuOpen)}
+function closeMobile(){menuOpen=false;mobileMenu.classList.remove('open')}
+
+// ── HERO SLIDER ──
+const slides=document.querySelectorAll('.hero-slide');
+const dotsWrap=document.getElementById('heroDots');
+let cur=0,heroTimer;
+slides.forEach((_,i)=>{
+  const d=document.createElement('button');
+  d.className='hero-dot'+(i===0?' active':'');
+  d.onclick=()=>goSlide(i);
+  dotsWrap.appendChild(d);
+});
+function goSlide(n){
+  slides[cur].classList.remove('active');
+  dotsWrap.children[cur].classList.remove('active');
+  cur=n;
+  slides[cur].classList.add('active');
+  dotsWrap.children[cur].classList.add('active');
+  clearInterval(heroTimer);
+  heroTimer=setInterval(()=>goSlide((cur+1)%slides.length),5000);
+}
+heroTimer=setInterval(()=>goSlide((cur+1)%slides.length),5000);
+
+// ── LIGHTBOX ──
+const allImgs=[
+  {src:'https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/Makoa-Cottages-mit-Kili-Blick.jpg',cap:'Makoa Cottages with Kilimanjaro'},
+  {src:'https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/Makoa_breakfast-view.jpg',cap:'Breakfast with Kili View'},
+  {src:'https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/Makoa-Cottage-1.jpg',cap:'Cottage Interior'},
+  {src:'https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/MakoaCottage-Nr3.jpg',cap:'Cottage No. 3'},
+  {src:'https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/P1000446.jpg',cap:'Kilimanjaro Sunset'},
+  {src:'https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/Makoa-guest-house.jpg',cap:'Papaya Guesthouse'},
+  {src:'https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/Guesthouse-innen.jpg',cap:'Guesthouse Interior'},
+  {src:'https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/Makoa-Cottage-Nr-3-1.jpg',cap:'Cottage Terrace'},
+  {src:'https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/DSC_3133.jpg',cap:'Farm View'},
+  {src:'https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/IMG_3C60EFA47E91-9.jpeg',cap:'Makoa Farm'},
+  {src:'https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/IMG_3C60EFA47E91-13.jpeg',cap:'Cottage Details'},
+  {src:'https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/IMG_3C60EFA47E91-16.jpeg',cap:'Garden'},
+  {src:'https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/IMG_3C60EFA47E91-5.jpeg',cap:'Veranda View'},
+  {src:'https://gaestehaus-kilimanjaro.de/wp-content/uploads/2022/07/IMG_3C60EFA47E91-10-1.jpeg',cap:'Farm Estate'},
+];
+let lbIdx=0;
+const lb=document.getElementById('lightbox');
+const lbImg=document.getElementById('lb-img');
+const lbCap=document.getElementById('lb-caption');
+function openLightbox(i){lbIdx=i;lb.classList.add('open');lbImg.src=allImgs[i].src;lbCap.textContent=allImgs[i].cap+' ('+(i+1)+'/'+allImgs.length+')';}
+function openLightboxSrc(src,cap){const i=allImgs.findIndex(x=>x.src===src);if(i>=0){openLightbox(i)}else{lb.classList.add('open');lbImg.src=src;lbCap.textContent=cap;}}
+document.getElementById('lb-close').onclick=()=>lb.classList.remove('open');
+document.getElementById('lb-prev').onclick=()=>openLightbox((lbIdx-1+allImgs.length)%allImgs.length);
+document.getElementById('lb-next').onclick=()=>openLightbox((lbIdx+1)%allImgs.length);
+lb.addEventListener('click',e=>{if(e.target===lb)lb.classList.remove('open')});
+document.addEventListener('keydown',e=>{
+  if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')lb.classList.remove('open');
+  if(e.key==='ArrowLeft')openLightbox((lbIdx-1+allImgs.length)%allImgs.length);
+  if(e.key==='ArrowRight')openLightbox((lbIdx+1)%allImgs.length);
+});
+document.querySelectorAll('.mosaic-item').forEach(el=>el.addEventListener('click',()=>openLightbox(+el.dataset.idx)));
+
+// ── ACTIVITY TABS ──
+document.querySelectorAll('.act-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.act-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.activity-panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('.activity-panel')[+tab.dataset.panel].classList.add('active');
+  });
+});
+
+// ── TESTIMONIALS ──
+const track=document.getElementById('testiTrack');
+const items=track.children;
+const navWrap=document.getElementById('testiNav');
+let tIdx=0,tTimer;
+for(let i=0;i<items.length;i++){
+  const d=document.createElement('button');
+  d.className='testi-dot'+(i===0?' active':'');
+  d.onclick=()=>goTesti(i);
+  navWrap.appendChild(d);
+}
+function goTesti(n){
+  navWrap.children[tIdx].classList.remove('active');
+  tIdx=n;
+  track.style.transform=`translateX(-${n*100}%)`;
+  navWrap.children[tIdx].classList.add('active');
+  clearInterval(tTimer);
+  tTimer=setInterval(()=>goTesti((tIdx+1)%items.length),6000);
+}
+tTimer=setInterval(()=>goTesti((tIdx+1)%items.length),6000);
+
+// ── REVEAL SCROLL ──
+const revealEls=document.querySelectorAll('.reveal');
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}});
+},{threshold:.12});
+revealEls.forEach(el=>observer.observe(el));
+
+// ── FORM SUBMIT ──
+function submitForm(){
+  const name=document.getElementById('f-name').value.trim();
+  const email=document.getElementById('f-email').value.trim();
+  if(!name||!email){alert('Please enter your name and email.');return;}
+  const s=document.getElementById('f-success');
+  s.style.display='block';
+  document.getElementById('f-name').value='';
+  document.getElementById('f-email').value='';
+  document.getElementById('f-msg').value='';
+  setTimeout(()=>s.style.display='none',6000);
+}
+</script>
+</body>
+</html>
